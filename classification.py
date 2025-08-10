@@ -10,7 +10,7 @@ IMG_SIZE = (224, 224)
 
 # Google Drive file IDs for your models
 MODEL_IDS = {
-    "Small CNN": "1qLGm7pg1Ltrk9239p-imtUbYWVQta1nd",
+    "Small CNN": "https:1qLGm7pg1Ltrk9239p-imtUbYWVQta1nd",
     "ResNet50 (Fine-tuned)": "1SmzFv-kZYJnWiQpJ2jkzNEqY8DtXRDYb"
 }
 
@@ -66,5 +66,6 @@ if uploaded_file is not None:
     top_indices = predictions[0].argsort()[-3:][::-1]
     for idx in top_indices:
         st.write(f"{CLASS_NAMES[idx]}: {predictions[0][idx]:.2f}")
+
 
 
