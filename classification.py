@@ -4,14 +4,18 @@ import numpy as np
 from PIL import Image
 
 IMG_SIZE = (224, 224)
+# Google Drive file IDs for models
+MODEL_IDS = {
+    "Small CNN": "1qLGm7pg1Ltrk9239p-imtUbYWVQta1nd",
+    "ResNet50 (Fine-tuned)": "1SmzFv-kZYJnWiQpJ2jkzNEqY8DtXRDYb"
+}
 
-# Paths to your trained models
-MODEL_PATHS = {
+MODEL_FILES = {
     "Small CNN": "small_cnn.h5",
     "ResNet50 (Fine-tuned)": "resnet50_finetuned.h5"
 }
 
-# Replace with your actual class names from training
+# Replace with actual class names from training
 CLASS_NAMES = [
     "Class1", "Class2", "Class3", "Class4"
 ]
@@ -55,3 +59,4 @@ if uploaded_file is not None:
     top_indices = predictions[0].argsort()[-3:][::-1]
     for idx in top_indices:
         st.write(f"{CLASS_NAMES[idx]}: {predictions[0][idx]:.2f}")
+
