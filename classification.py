@@ -58,13 +58,26 @@ if uploaded_file:
     img_array = np.array(image.resize(IMG_SIZE)) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
 
-    preds = model.predict(img_array)[0]
-    top_indices = preds.argsort()[-3:][::-1]
+    # Predict
+preds = model.predict(img_array)[0]
 
-    st.subheader(f"Prediction: **{CLASS_NAMES[top_indices[0]]}** ({preds[top_indices[0]]:.2f})")
-    st.write("### Top 3 Predictions:")
-    for idx in top_indices:
-        st.write(f"- {CLASS_NAMES[idx]}: {preds[idx]:.2f}")
+# Adjust CLASS_NAMES if its length doesn't match model output
+if len(CLASS_NAMES) != len(preds):
+    CLASS_NAMES = [f"Class{i+1}" for i in range(len(preds))]
+
+# Get top predictions (max 3 or less if fewer classes)
+top_n = min(3, len(preds))
+top_indices = preds.argsort()[-top_n:][::-1]
+
+# Display top prediction
+st.subheader(f"Prediction: **{CLASS_NAMES[top_indices[0]]}** ({preds[top_indices[0]]:.2f})")
+
+# Display all top N predictions
+st.write("### Top Predictions:")
+for idx in top_indices:
+    st.write(f"- {CLASS_NAMES[idx]}: {preds[idx]:.2f}")
+
+
 
 
 
