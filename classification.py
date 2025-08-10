@@ -52,33 +52,29 @@ model = load_model_from_drive(model_choice)
 
 uploaded_file = st.file_uploader("Upload a fish image", type=["jpg", "jpeg", "png"])
 if uploaded_file:
+    # Load and display image
     image = Image.open(uploaded_file).convert("RGB")
     st.image(image, caption="Uploaded Image", use_column_width=True)
 
+    # Preprocess image
     img_array = np.array(image.resize(IMG_SIZE)) / 255.0
     img_array = np.expand_dims(img_array, axis=0)
 
     # Predict
-preds = model.predict(img_array)[0]
+    preds = model.predict(img_array)[0]
 
-# Adjust CLASS_NAMES if its length doesn't match model output
-if len(CLASS_NAMES) != len(preds):
-    CLASS_NAMES = [f"Class{i+1}" for i in range(len(preds))]
+    # Adjust CLASS_NAMES if its length doesn't match model output
+    if len(CLASS_NAMES) != len(preds):
+        CLASS_NAMES = [f"Class{i+1}" for i in range(len(preds))]
 
-# Get top predictions (max 3 or less if fewer classes)
-top_n = min(3, len(preds))
-top_indices = preds.argsort()[-top_n:][::-1]
+    # Get top predictions (max 3)
+    top_n = min(3, len(preds))
+    top_indices = preds.argsort()[-top_n:][::-1]
 
-# Display top prediction
-st.subheader(f"Prediction: **{CLASS_NAMES[top_indices[0]]}** ({preds[top_indices[0]]:.2f})")
+    # Display top prediction
+    st.subheader(f"Prediction: **{CLASS_NAMES[top_indices[0]]}** ({preds[top_indices[0]]:.2f})")
 
-# Display all top N predictions
-st.write("### Top Predictions:")
-for idx in top_indices:
-    st.write(f"- {CLASS_NAMES[idx]}: {preds[idx]:.2f}")
-
-
-
-
-
-
+    # Display all top predictions
+    st.write("### Top Predictions:")
+    for idx in top_indices:
+        st.write(f"- {CLASS_NAMES[idx]}: {preds[idx]:.2f}")
