@@ -26,7 +26,7 @@ st.title("🐟 Multiclass Fish Image Classification")
 st.write("Upload an image of a fish and select a model to classify it.")
 
 # Model selection
-model_choice = st.selectbox("Choose a model:", list(MODEL_PATHS.keys()))
+model_choice = st.selectbox("Choose a model:", list(MODEL_IDS.keys()))
 
 @st.cache_resource
 def load_model(model_path):
@@ -59,4 +59,5 @@ if uploaded_file is not None:
     top_indices = predictions[0].argsort()[-3:][::-1]
     for idx in top_indices:
         st.write(f"{CLASS_NAMES[idx]}: {predictions[0][idx]:.2f}")
+
 
